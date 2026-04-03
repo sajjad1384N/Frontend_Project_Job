@@ -16,5 +16,38 @@
         <div class="stat card"><strong>{{ s.totalRejected }}</strong><span>Rejected</span></div>
       </div>
     }
+
+    <h2 class="section-title">Jobs &amp; applications</h2>
+    <p class="muted section-lead">
+      See how many applications each job received. Open a job to review candidates, download resumes, and shortlist or reject.
+    </p>
+    @if (!jobs().length) {
+      <div class="card empty">No jobs posted yet.</div>
+    } @else {
+      <div class="table-wrap card">
+        <table class="job-app-table">
+          <thead>
+            <tr>
+              <th>Job</th>
+              <th>Company</th>
+              <th class="num">Applications</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of jobs(); track row.jobId) {
+              <tr>
+                <td><strong>{{ row.title }}</strong></td>
+                <td>{{ row.companyName }}</td>
+                <td class="num">{{ row.applicationCount }}</td>
+                <td class="actions">
+                  <a class="btn primary sm" [routerLink]="['/jobs', row.jobId, 'applications']">Manage</a>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
   }
 </section>

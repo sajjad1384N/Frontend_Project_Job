@@ -22,7 +22,13 @@
         <a routerLink="/login" class="btn ghost sm">Log in</a>
         <a routerLink="/register" class="btn primary sm">Sign up</a>
       } @else {
-        <span class="who">{{ auth.user()?.fullName || auth.user()?.email }} · {{ auth.role() }}</span>
+        <div class="auth-user">
+          <app-header-avatar />
+          <div class="user-meta">
+            <span class="user-name">{{ auth.user()?.fullName || auth.user()?.email }}</span>
+            <span class="user-role">{{ auth.role() }}</span>
+          </div>
+        </div>
         <button type="button" class="btn ghost sm" (click)="auth.logout()">Log out</button>
       }
     </div>

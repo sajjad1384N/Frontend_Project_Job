@@ -23,4 +23,12 @@ export class UserService {
       .get<ApiResponse<PageResponse<UserProfileResponse>>>(`${API_BASE_URL}/users`, { params: hp })
       .pipe(map((r) => r.data));
   }
+
+  uploadAvatar(file: File): Observable<UserProfileResponse> {
+    const body = new FormData();
+    body.append('file', file);
+    return this.http
+      .put<ApiResponse<UserProfileResponse>>(`${API_BASE_URL}/users/me/avatar`, body)
+      .pipe(map((r) => r.data));
+  }
 }

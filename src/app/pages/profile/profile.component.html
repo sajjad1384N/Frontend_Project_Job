@@ -1,6 +1,13 @@
 <section class="narrow card">
   <h1>Profile</h1>
   @if (auth.user(); as u) {
+    <div class="photo-row">
+      <label class="photo-label">
+        <span class="muted">Profile photo</span>
+        <input type="file" accept="image/jpeg,image/png,image/gif,image/webp" (change)="onPhotoPicked($event)" [disabled]="uploadingPhoto()" />
+      </label>
+      <p class="hint muted">JPG, PNG, GIF, or WEBP · max 2 MB. Shown in the header after login.</p>
+    </div>
     <p><strong>Name:</strong> {{ u.fullName }}</p>
     <p><strong>Email:</strong> {{ u.email }}</p>
     <p><strong>Role:</strong> {{ u.role }}</p>

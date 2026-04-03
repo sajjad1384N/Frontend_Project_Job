@@ -19,3 +19,49 @@
   font-size: 0.8rem;
   color: var(--muted);
 }
+
+.section-title {
+  margin: 2rem 0 0.5rem;
+  font-size: 1.1rem;
+}
+
+.section-lead {
+  margin: 0 0 1rem;
+}
+
+.table-wrap {
+  padding: 0;
+  overflow-x: auto;
+}
+
+.job-app-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.job-app-table th,
+.job-app-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.job-app-table th {
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.job-app-table tr:last-child td {
+  border-bottom: none;
+}
+
+.job-app-table .num {
+  text-align: right;
+}
+
+.job-app-table .actions {
+  text-align: right;
+  white-space: nowrap;
+}

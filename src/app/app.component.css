@@ -51,9 +51,34 @@ nav a.active {
   flex-wrap: wrap;
 }
 
-.who {
-  font-size: 0.85rem;
+.auth-user {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  max-width: min(260px, 100%);
+}
+
+.user-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.user-name {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-role {
+  font-size: 0.75rem;
   color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .main {

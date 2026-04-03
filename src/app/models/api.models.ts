@@ -43,6 +43,8 @@ export interface UserProfileResponse {
   fullName: string;
   email: string;
   role: Role;
+  /** e.g. `users/me/avatar` — fetch with auth to display image */
+  avatarUrl?: string | null;
 }
 
 export interface RegisterRequest {
@@ -59,6 +61,13 @@ export interface AdminDashboardStatsResponse {
   totalApplied: number;
   totalShortlisted: number;
   totalRejected: number;
+}
+
+export interface AdminJobSummaryResponse {
+  jobId: number;
+  title: string;
+  companyName: string;
+  applicationCount: number;
 }
 
 export type ApplicationStatus = 'APPLIED' | 'SHORTLISTED' | 'REJECTED';
