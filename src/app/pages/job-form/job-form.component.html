@@ -1,0 +1,34 @@
+<section>
+  <h1>{{ mode() === 'create' ? 'Post a job' : 'Edit job' }}</h1>
+  @if (error()) {
+    <div class="alert error">{{ error() }}</div>
+  }
+  @if (loading() && mode() === 'edit' && !form.title) {
+    <p>Loading…</p>
+  } @else {
+    <form class="card form" (ngSubmit)="save()">
+      <label>
+        Title
+        <input name="title" [(ngModel)]="form.title" required />
+      </label>
+      <label>
+        Company
+        <input name="companyName" [(ngModel)]="form.companyName" required />
+      </label>
+      <label>
+        Location
+        <input name="location" [(ngModel)]="form.location" required />
+      </label>
+      <label>
+        Description
+        <textarea name="description" rows="8" [(ngModel)]="form.description" required></textarea>
+      </label>
+      <div class="row">
+        <button type="submit" class="btn primary" [disabled]="loading()">{{ loading() ? '…' : 'Save' }}</button>
+        @if (mode() === 'edit') {
+          <button type="button" class="btn danger" (click)="remove()" [disabled]="loading()">Delete</button>
+        }
+      </div>
+    </form>
+  }
+</section>

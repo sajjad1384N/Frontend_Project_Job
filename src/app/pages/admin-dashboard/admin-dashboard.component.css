@@ -1,0 +1,21 @@
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 1rem;
+}
+
+.stat {
+  text-align: center;
+  padding: 1.25rem;
+}
+
+.stat strong {
+  display: block;
+  font-size: 1.75rem;
+  color: var(--accent);
+}
+
+.stat span {
+  font-size: 0.8rem;
+  color: var(--muted);
+}

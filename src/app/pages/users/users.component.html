@@ -1,0 +1,48 @@
+<section>
+  <h1>Users</h1>
+  <div class="filters card">
+    <input [(ngModel)]="keyword" placeholder="Name / email" />
+    <select [(ngModel)]="roleFilter">
+      <option value="">All roles</option>
+      <option value="ADMIN">Admin</option>
+      <option value="RECRUITER">Recruiter</option>
+      <option value="CANDIDATE">Candidate</option>
+    </select>
+    <button type="button" class="btn primary" (click)="search()">Search</button>
+  </div>
+
+  @if (error()) {
+    <div class="alert error">{{ error() }}</div>
+  }
+  @if (loading()) {
+    <p>Loading…</p>
+  } @else {
+    <div class="card table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (u of list(); track u.id) {
+            <tr>
+              <td>{{ u.fullName }}</td>
+              <td>{{ u.email }}</td>
+              <td>{{ u.role }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <div class="pagination">
+      <button type="button" class="btn ghost" [disabled]="page() === 0" (click)="prev()">Previous</button>
+      <span class="muted">Page {{ page() + 1 }} / {{ totalPages() || 1 }}</span>
+      <button type="button" class="btn ghost" [disabled]="page() >= totalPages() - 1" (click)="next()">
+        Next
+      </button>
+    </div>
+  }
+</section>

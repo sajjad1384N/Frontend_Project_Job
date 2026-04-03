@@ -1,0 +1,46 @@
+@if (loading()) {
+  <p>Loading…</p>
+} @else if (error()) {
+  <div class="alert error">{{ error() }}</div>
+} @else {
+  @if (job(); as j) {
+    <article class="card">
+      <h1>{{ j.title }}</h1>
+      <p class="meta">{{ j.companyName }} · {{ j.location }}</p>
+      <div class="body">{{ j.description }}</div>
+    </article>
+
+    @if (auth.role() === 'ADMIN' || auth.role() === 'RECRUITER') {
+      <div class="actions card">
+        <a class="btn ghost" [routerLink]="['/jobs', j.id, 'edit']">Edit job</a>
+        <a class="btn primary" [routerLink]="['/jobs', j.id, 'applications']">View applications</a>
+      </div>
+    }
+
+    @if (auth.role() === 'CANDIDATE') {
+      <section class="card apply">
+        <h2>Apply</h2>
+        @if (applyOk()) {
+          <div class="alert success">{{ applyOk() }}</div>
+        }
+        @if (applyError()) {
+          <div class="alert error">{{ applyError() }}</div>
+        }
+        <label>
+          Cover letter
+          <textarea [(ngModel)]="coverLetter" rows="5" name="cover"></textarea>
+        </label>
+        <label>
+          Resume (PDF, DOC, or DOCX)
+          <input type="file" name="resume" accept=".pdf,.doc,.docx,application/pdf" (change)="onResumePicked($event)" />
+        </label>
+        @if (resumeName()) {
+          <p class="muted small">Selected: {{ resumeName() }}</p>
+        }
+        <button type="button" class="btn primary" [disabled]="applying() || !resumeFile()" (click)="apply()">
+          {{ applying() ? '…' : 'Submit application' }}
+        </button>
+      </section>
+    }
+  }
+}

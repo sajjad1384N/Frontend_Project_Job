@@ -1,0 +1,83 @@
+# Job Portal UI (Angular)
+
+Angular 19 frontend for the Spring Boot job portal API.
+
+## Run with the backend
+
+1. Start the Spring Boot app on **port 8080** (default).
+2. From this folder:
+
+```bash
+npm install
+npm start
+```
+
+Open **http://localhost:4200/**. CORS on the backend allows `http://localhost:4200`.
+
+The API base URL is set in `src/app/core/config.ts` (`http://localhost:8080/api`). Change it if your backend uses another host or port.
+
+## Features (matches backend routes)
+
+- **Auth:** `/api/auth` — login, register, refresh token (profile page).
+- **Jobs:** public listing and detail; recruiters/admins create, edit, delete; link to applications per job.
+- **Applications:** candidates apply and view “My applications”; recruiters/admins review and update status.
+- **Users:** `/api/users` — profile; directory for admin/recruiter.
+- **Admin:** `/api/admin/stats` — dashboard for `ADMIN` only.
+
+---
+
+This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.23.
+
+## Development server
+
+```bash
+ng serve
+```
+
+Navigate to `http://localhost:4200/`. The app reloads when source files change.
+
+## Code scaffolding
+
+Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+
+```bash
+ng generate component component-name
+```
+
+For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+
+```bash
+ng generate --help
+```
+
+## Building
+
+To build the project run:
+
+```bash
+ng build
+```
+
+This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+
+## Running unit tests
+
+To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+
+```bash
+ng test
+```
+
+## Running end-to-end tests
+
+For end-to-end (e2e) testing, run:
+
+```bash
+ng e2e
+```
+
+Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+
+## Additional Resources
+
+For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.

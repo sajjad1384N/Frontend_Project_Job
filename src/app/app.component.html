@@ -1,0 +1,33 @@
+<header class="top">
+  <div class="inner">
+    <a routerLink="/" class="brand">Job Portal</a>
+    <nav>
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Jobs</a>
+      @if (auth.isLoggedIn()) {
+        <a routerLink="/profile" routerLinkActive="active">Profile</a>
+        @if (auth.role() === 'CANDIDATE') {
+          <a routerLink="/my-applications" routerLinkActive="active">My applications</a>
+        }
+        @if (auth.role() === 'ADMIN' || auth.role() === 'RECRUITER') {
+          <a routerLink="/jobs/new" routerLinkActive="active">Post job</a>
+          <a routerLink="/users" routerLinkActive="active">Users</a>
+        }
+        @if (auth.role() === 'ADMIN') {
+          <a routerLink="/admin" routerLinkActive="active">Admin</a>
+        }
+      }
+    </nav>
+    <div class="auth">
+      @if (!auth.isLoggedIn()) {
+        <a routerLink="/login" class="btn ghost sm">Log in</a>
+        <a routerLink="/register" class="btn primary sm">Sign up</a>
+      } @else {
+        <span class="who">{{ auth.user()?.fullName || auth.user()?.email }} · {{ auth.role() }}</span>
+        <button type="button" class="btn ghost sm" (click)="auth.logout()">Log out</button>
+      }
+    </div>
+  </div>
+</header>
+<main class="main">
+  <router-outlet />
+</main>

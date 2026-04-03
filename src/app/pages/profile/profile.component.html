@@ -1,0 +1,19 @@
+<section class="narrow card">
+  <h1>Profile</h1>
+  @if (auth.user(); as u) {
+    <p><strong>Name:</strong> {{ u.fullName }}</p>
+    <p><strong>Email:</strong> {{ u.email }}</p>
+    <p><strong>Role:</strong> {{ u.role }}</p>
+  } @else {
+    <p>Loading…</p>
+  }
+  @if (message()) {
+    <div class="alert success">{{ message() }}</div>
+  }
+  @if (err()) {
+    <div class="alert error">{{ err() }}</div>
+  }
+  <button type="button" class="btn primary" [disabled]="refreshing()" (click)="refresh()">
+    {{ refreshing() ? '…' : 'Refresh token' }}
+  </button>
+</section>

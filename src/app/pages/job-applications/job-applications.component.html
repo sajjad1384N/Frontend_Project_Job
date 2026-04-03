@@ -1,0 +1,105 @@
+<section>
+  <p class="muted">
+    <a routerLink="/">Home</a> / Job #{{ jobId }} · {{ jobTitle() }}
+  </p>
+  <h1>Applications</h1>
+  <div class="filters card">
+    <input [(ngModel)]="keyword" placeholder="Candidate name/email" />
+    <select [(ngModel)]="statusFilter">
+      <option value="">All statuses</option>
+      <option value="APPLIED">Applied</option>
+      <option value="SHORTLISTED">Shortlisted</option>
+      <option value="REJECTED">Rejected</option>
+    </select>
+    <button type="button" class="btn primary" (click)="search()">Filter</button>
+  </div>
+
+  @if (error()) {
+    <div class="alert error">{{ error() }}</div>
+  }
+  @if (loading()) {
+    <p>Loading…</p>
+  } @else if (!list().length) {
+    <div class="card empty">No applications.</div>
+  } @else {
+    <div class="card table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Candidate</th>
+            <th>Status</th>
+            <th>Resume</th>
+            <th>Applied</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (a of list(); track a.id) {
+            <tr>
+              <td>
+                {{ a.candidateName }}<br />
+                <span class="muted small">{{ a.candidateEmail }}</span>
+              </td>
+              <td>
+                <span class="badge" [class]="'st-' + a.status.toLowerCase()">{{ a.status }}</span>
+              </td>
+              <td>
+                @if (a.resumeOriginalFilename) {
+                  <button
+                    type="button"
+                    class="btn sm ghost"
+                    [disabled]="downloading() === a.id"
+                    (click)="downloadResume(a)"
+                  >
+                    {{ downloading() === a.id ? '…' : 'Download' }}
+                  </button>
+                  <div class="muted small">{{ a.resumeOriginalFilename }}</div>
+                } @else {
+                  <span class="muted small">—</span>
+                }
+              </td>
+              <td class="muted small">{{ a.appliedAt | date: 'medium' }}</td>
+              <td class="actions">
+                @if (a.status === 'APPLIED') {
+                  <button
+                    type="button"
+                    class="btn sm primary"
+                    [disabled]="updating() === a.id"
+                    (click)="setStatus(a, 'SHORTLISTED')"
+                  >
+                    Shortlist
+                  </button>
+                  <button
+                    type="button"
+                    class="btn sm ghost"
+                    [disabled]="updating() === a.id"
+                    (click)="setStatus(a, 'REJECTED')"
+                  >
+                    Reject
+                  </button>
+                }
+                @if (a.status === 'SHORTLISTED') {
+                  <button
+                    type="button"
+                    class="btn sm ghost"
+                    [disabled]="updating() === a.id"
+                    (click)="setStatus(a, 'REJECTED')"
+                  >
+                    Reject
+                  </button>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <div class="pagination">
+      <button type="button" class="btn ghost" [disabled]="page() === 0" (click)="prev()">Previous</button>
+      <span class="muted">Page {{ page() + 1 }} / {{ totalPages() || 1 }}</span>
+      <button type="button" class="btn ghost" [disabled]="page() >= totalPages() - 1" (click)="next()">
+        Next
+      </button>
+    </div>
+  }
+</section>
