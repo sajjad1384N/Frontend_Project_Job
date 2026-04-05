@@ -1,0 +1,32 @@
+<section>
+  <h1>Saved jobs</h1>
+  <p class="muted">Roles you bookmarked. <a routerLink="/">Browse all open roles</a></p>
+
+  @if (error()) {
+    <div class="alert error">{{ error() }}</div>
+  }
+  @if (loading()) {
+    <p>Loading…</p>
+  } @else if (!list().length) {
+    <div class="card empty">You have not saved any jobs yet.</div>
+  } @else {
+    <div class="job-list">
+      @for (job of list(); track job.id) {
+        <article class="card job">
+          <h2>
+            <a [routerLink]="['/jobs', job.id]">{{ job.title }}</a>
+          </h2>
+          <p class="meta">{{ job.companyName }} · {{ job.location }}</p>
+          <p class="desc">{{ job.description | slice: 0 : 180 }}{{ job.description.length > 180 ? '…' : '' }}</p>
+        </article>
+      }
+    </div>
+    <div class="pagination">
+      <button type="button" class="btn ghost" [disabled]="page() === 0" (click)="prev()">Previous</button>
+      <span class="muted">Page {{ page() + 1 }} / {{ totalPages() || 1 }}</span>
+      <button type="button" class="btn ghost" [disabled]="page() >= totalPages() - 1" (click)="next()">
+        Next
+      </button>
+    </div>
+  }
+</section>

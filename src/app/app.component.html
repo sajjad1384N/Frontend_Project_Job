@@ -8,6 +8,7 @@
         <a routerLink="/profile" routerLinkActive="active">Profile</a>
         @if (auth.role() === 'CANDIDATE') {
           <a routerLink="/my-applications" routerLinkActive="active">My applications</a>
+          <a routerLink="/saved-jobs" routerLinkActive="active">Saved jobs</a>
         }
         @if (auth.role() === 'ADMIN' || auth.role() === 'RECRUITER') {
           <a routerLink="/jobs/new" routerLinkActive="active">Post job</a>

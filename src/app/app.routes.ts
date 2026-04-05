@@ -11,6 +11,16 @@ export const routes: Routes = [
   },
   { path: 'login', loadComponent: () => import('./pages/login/login.component').then((m) => m.LoginComponent) },
   {
+    path: 'forgot-password',
+    loadComponent: () =>
+      import('./pages/forgot-password/forgot-password.component').then((m) => m.ForgotPasswordComponent),
+  },
+  {
+    path: 'reset-password',
+    loadComponent: () =>
+      import('./pages/reset-password/reset-password.component').then((m) => m.ResetPasswordComponent),
+  },
+  {
     path: 'register',
     loadComponent: () => import('./pages/register/register.component').then((m) => m.RegisterComponent),
   },
@@ -52,6 +62,13 @@ export const routes: Routes = [
     data: { roles: ['CANDIDATE'] },
     loadComponent: () =>
       import('./pages/my-applications/my-applications.component').then((m) => m.MyApplicationsComponent),
+  },
+  {
+    path: 'saved-jobs',
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['CANDIDATE'] },
+    loadComponent: () =>
+      import('./pages/saved-jobs/saved-jobs.component').then((m) => m.SavedJobsComponent),
   },
   {
     path: 'admin',

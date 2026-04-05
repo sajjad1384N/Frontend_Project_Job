@@ -75,4 +75,10 @@ export class ApplicationService {
       )
       .pipe(map((r) => r.data));
   }
+
+  exportJobApplicationsCsv(jobId: number): Observable<Blob> {
+    return this.http.get(`${API_BASE_URL}/applications/jobs/${jobId}/export`, {
+      responseType: 'blob',
+    });
+  }
 }

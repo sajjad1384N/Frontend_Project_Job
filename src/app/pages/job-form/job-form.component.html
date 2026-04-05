@@ -23,6 +23,11 @@
         Description
         <textarea name="description" rows="8" [(ngModel)]="form.description" required></textarea>
       </label>
+      <label>
+        Application deadline (optional)
+        <input type="datetime-local" name="closingAt" [(ngModel)]="closingAtLocal" />
+      </label>
+      <p class="muted small">Leave empty for no deadline. After this time, candidates cannot apply.</p>
       <div class="row">
         <button type="submit" class="btn primary" [disabled]="loading()">{{ loading() ? '…' : 'Save' }}</button>
         @if (mode() === 'edit') {

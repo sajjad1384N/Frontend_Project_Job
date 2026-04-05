@@ -7,6 +7,12 @@
     <article class="card">
       <h1>{{ j.title }}</h1>
       <p class="meta">{{ j.companyName }} · {{ j.location }}</p>
+      @if (j.closingAt) {
+        <p class="muted small">Applications close {{ j.closingAt | date: 'medium' }}</p>
+      }
+      @if (j.closed) {
+        <div class="alert error">This job is closed and no longer accepts applications.</div>
+      }
       <div class="body">{{ j.description }}</div>
     </article>
 
@@ -18,6 +24,19 @@
     }
 
     @if (auth.role() === 'CANDIDATE') {
+      <div class="card row" style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap">
+        <button
+          type="button"
+          class="btn ghost"
+          [disabled]="savedLoading()"
+          (click)="toggleSave()"
+        >
+          {{ savedLoading() ? '…' : saved() ? 'Saved' : 'Save job' }}
+        </button>
+      </div>
+    }
+
+    @if (auth.role() === 'CANDIDATE' && !j.closed) {
       <section class="card apply">
         <h2>Apply</h2>
         @if (applyOk()) {
@@ -37,7 +56,12 @@
         @if (resumeName()) {
           <p class="muted small">Selected: {{ resumeName() }}</p>
         }
-        <button type="button" class="btn primary" [disabled]="applying() || !resumeFile()" (click)="apply()">
+        <button
+          type="button"
+          class="btn primary"
+          [disabled]="applying() || !resumeFile() || j.closed"
+          (click)="apply()"
+        >
           {{ applying() ? '…' : 'Submit application' }}
         </button>
       </section>

@@ -3,6 +3,11 @@
     <a routerLink="/">Home</a> / Job #{{ jobId }} · {{ jobTitle() }}
   </p>
   <h1>Applications</h1>
+  <p class="row-actions">
+    <button type="button" class="btn ghost" [disabled]="exporting()" (click)="exportCsv()">
+      {{ exporting() ? '…' : 'Export CSV' }}
+    </button>
+  </p>
   <div class="filters card">
     <input [(ngModel)]="keyword" placeholder="Candidate name/email" />
     <select [(ngModel)]="statusFilter">

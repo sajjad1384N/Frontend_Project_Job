@@ -26,6 +26,7 @@ export class JobApplicationsComponent {
   readonly error = signal<string | null>(null);
   readonly updating = signal<number | null>(null);
   readonly downloading = signal<number | null>(null);
+  readonly exporting = signal(false);
 
   jobId!: number;
   statusFilter = '';
@@ -98,6 +99,22 @@ export class JobApplicationsComponent {
         this.downloading.set(null);
       },
       error: () => this.downloading.set(null),
+    });
+  }
+
+  exportCsv(): void {
+    this.exporting.set(true);
+    this.applications.exportJobApplicationsCsv(this.jobId).subscribe({
+      next: (blob) => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `applications-${this.jobId}.csv`;
+        a.click();
+        URL.revokeObjectURL(url);
+        this.exporting.set(false);
+      },
+      error: () => this.exporting.set(false),
     });
   }
 

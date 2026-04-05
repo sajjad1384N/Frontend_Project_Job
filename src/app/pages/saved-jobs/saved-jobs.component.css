@@ -1,0 +1,26 @@
+.job-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.job h2 {
+  margin: 0 0 0.35rem;
+  font-size: 1.2rem;
+}
+
+.job h2 a {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.job h2 a:hover {
+  color: var(--accent);
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.25rem;
+}

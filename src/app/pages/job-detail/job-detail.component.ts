@@ -5,6 +5,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ApplicationService } from '../../core/application.service';
 import { AuthService } from '../../core/auth.service';
 import { JobService } from '../../core/job.service';
+import { SavedJobService } from '../../core/saved-job.service';
 import { JobResponse } from '../../models/api.models';
 
 @Component({
@@ -19,6 +20,7 @@ export class JobDetailComponent {
   private readonly router = inject(Router);
   private readonly jobs = inject(JobService);
   private readonly applications = inject(ApplicationService);
+  private readonly savedJobs = inject(SavedJobService);
   readonly auth = inject(AuthService);
 
   readonly job = signal<JobResponse | null>(null);
@@ -31,6 +33,8 @@ export class JobDetailComponent {
   coverLetter = '';
   readonly resumeFile = signal<File | null>(null);
   readonly resumeName = signal<string>('');
+  readonly saved = signal(false);
+  readonly savedLoading = signal(false);
 
   constructor() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -43,6 +47,12 @@ export class JobDetailComponent {
       next: (j) => {
         this.job.set(j);
         this.loading.set(false);
+        if (this.auth.role() === 'CANDIDATE') {
+          this.savedJobs.isSaved(id).subscribe({
+            next: (s) => this.saved.set(s),
+            error: () => this.saved.set(false),
+          });
+        }
       },
       error: (e) => {
         this.error.set(e.error?.message || e.message || 'Job not found');
@@ -58,10 +68,24 @@ export class JobDetailComponent {
     this.resumeName.set(f?.name ?? '');
   }
 
+  toggleSave(): void {
+    const j = this.job();
+    if (!j) return;
+    this.savedLoading.set(true);
+    const op = this.saved() ? this.savedJobs.remove(j.id) : this.savedJobs.save(j.id);
+    op.subscribe({
+      next: () => {
+        this.saved.update((v) => !v);
+        this.savedLoading.set(false);
+      },
+      error: () => this.savedLoading.set(false),
+    });
+  }
+
   apply(): void {
     const j = this.job();
     const file = this.resumeFile();
-    if (!j || !file) return;
+    if (!j || !file || j.closed) return;
     this.applyError.set(null);
     this.applyOk.set(null);
     this.applying.set(true);

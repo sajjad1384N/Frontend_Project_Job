@@ -23,6 +23,10 @@ export interface JobResponse {
   description: string;
   location: string;
   companyName: string;
+  /** ISO-8601 instant when applications close; omitted or null if no deadline. */
+  closingAt?: string | null;
+  /** True when closingAt is set and not in the future. */
+  closed?: boolean;
 }
 
 export interface JobRequest {
@@ -30,6 +34,7 @@ export interface JobRequest {
   description: string;
   location: string;
   companyName: string;
+  closingAt?: string | null;
 }
 
 export interface AuthResponse {

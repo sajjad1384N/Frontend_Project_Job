@@ -29,6 +29,9 @@ export class JobFormComponent {
     companyName: '',
   };
 
+  /** Bound to datetime-local; converted to ISO on save. */
+  closingAtLocal = '';
+
   constructor() {
     const idParam = this.route.snapshot.paramMap.get('id');
     if (idParam) {
@@ -44,6 +47,7 @@ export class JobFormComponent {
             location: j.location,
             companyName: j.companyName,
           };
+          this.closingAtLocal = j.closingAt ? toDatetimeLocalValue(j.closingAt) : '';
           this.loading.set(false);
         },
         error: (e) => {
@@ -57,8 +61,12 @@ export class JobFormComponent {
   save(): void {
     this.error.set(null);
     this.loading.set(true);
+    const body: JobRequest = {
+      ...this.form,
+      closingAt: this.closingAtLocal ? new Date(this.closingAtLocal).toISOString() : null,
+    };
     if (this.mode() === 'create') {
-      this.jobs.create(this.form).subscribe({
+      this.jobs.create(body).subscribe({
         next: (j) => {
           this.loading.set(false);
           this.router.navigate(['/jobs', j.id]);
@@ -71,7 +79,7 @@ export class JobFormComponent {
     } else {
       const id = this.jobId();
       if (!id) return;
-      this.jobs.update(id, this.form).subscribe({
+      this.jobs.update(id, body).subscribe({
         next: (j) => {
           this.loading.set(false);
           this.router.navigate(['/jobs', j.id]);
@@ -99,4 +107,10 @@ export class JobFormComponent {
       },
     });
   }
+}
+
+function toDatetimeLocalValue(iso: string): string {
+  const d = new Date(iso);
+  const pad = (n: number) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
 }

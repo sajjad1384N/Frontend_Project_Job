@@ -17,5 +17,8 @@
     </label>
     <button type="submit" class="btn primary" [disabled]="loading()">{{ loading() ? '…' : 'Log in' }}</button>
   </form>
-  <p class="muted">No account? <a routerLink="/register">Register</a></p>
+  <p class="muted">
+    <a routerLink="/forgot-password">Forgot password?</a>
+    · No account? <a routerLink="/register">Register</a>
+  </p>
 </section>

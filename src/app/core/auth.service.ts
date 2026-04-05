@@ -87,4 +87,20 @@ export class AuthService {
     this.clearSession();
     this.router.navigateByUrl('/login');
   }
+
+  forgotPassword(email: string): Observable<void> {
+    return this.http
+      .post<ApiResponse<void>>(`${API_BASE_URL}/auth/forgot-password`, { email })
+      .pipe(map(() => undefined));
+  }
+
+  resetPassword(email: string, token: string, newPassword: string): Observable<void> {
+    return this.http
+      .post<ApiResponse<void>>(`${API_BASE_URL}/auth/reset-password`, {
+        email,
+        token,
+        newPassword,
+      })
+      .pipe(map(() => undefined));
+  }
 }
