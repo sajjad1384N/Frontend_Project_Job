@@ -3,6 +3,7 @@
     <a routerLink="/" class="brand">Job Portal</a>
     <nav>
       <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Jobs</a>
+      <a routerLink="/about" routerLinkActive="active">About</a>
       @if (auth.isLoggedIn()) {
         <a routerLink="/profile" routerLinkActive="active">Profile</a>
         @if (auth.role() === 'CANDIDATE') {
