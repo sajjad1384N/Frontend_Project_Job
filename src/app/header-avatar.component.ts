@@ -26,6 +26,7 @@ import { AuthService } from './core/auth.service';
       .avatar-img {
         border-radius: 50%;
         object-fit: cover;
+        object-position: center 28%;
         border: 1px solid var(--border);
       }
       .avatar-fallback {

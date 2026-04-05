@@ -4,6 +4,11 @@ import { roleGuard } from './core/role.guard';
 
 export const routes: Routes = [
   { path: '', loadComponent: () => import('./pages/home/home.component').then((m) => m.HomeComponent) },
+  {
+    path: 'about',
+    loadComponent: () =>
+      import('./pages/about-developer/about-developer.component').then((m) => m.AboutDeveloperComponent),
+  },
   { path: 'login', loadComponent: () => import('./pages/login/login.component').then((m) => m.LoginComponent) },
   {
     path: 'register',
